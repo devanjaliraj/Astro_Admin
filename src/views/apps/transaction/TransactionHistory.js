@@ -11,17 +11,18 @@ import {
   DropdownItem,
   DropdownToggle,
 } from "reactstrap";
-// import axiosConfig from "../../../axiosConfig";
-import axios from "axios";
-import { ContextLayout } from "../../../utility/context/Layout";
-import { AgGridReact } from "ag-grid-react";
-import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
-//import classnames from "classnames";
-import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
-import "../../../assets/scss/pages/users.scss";
-import { Route } from "react-router-dom";
 
-class ApprovedDrivers extends React.Component {
+import "../../../assets/scss/plugins/tables/_agGridStyleOverride.scss";
+import { Eye, Edit, Trash2, ChevronDown } from "react-feather";
+import { ContextLayout } from "../../../utility/context/Layout";
+import "../../../assets/scss/pages/users.scss";
+import { AgGridReact } from "ag-grid-react";
+import { Route } from "react-router-dom";
+import axios from "axios";
+//import classnames from "classnames";
+// import axiosConfig from "../../../axiosConfig";
+
+class TransactionHistory extends React.Component {
   state = {
     rowData: [],
     paginationPageSize: 20,
@@ -43,38 +44,29 @@ class ApprovedDrivers extends React.Component {
         // checkboxSelection: true,
         // headerCheckboxSelectionFilteredOnly: true,
         // headerCheckboxSelection: true,
-      },   
-      { 
+      },
+
+      {
         headerName: "Name",
         field: "firstname",
         filter: true,
-        width: 100,
+        width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
-              <span>{params.data.firstname} {params.data.lastname}</span>
-            </div>
-          );
-        },
-      }, 
-      { 
-        headerName: "Service-Location",
-        field: "firstname",
-        filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.firstname} {params.data.lastname}</span>
+              <span>
+                {params.data.firstname} {params.data.lastname}
+              </span>
             </div>
           );
         },
       },
+
       {
         headerName: "Email",
         field: "email	",
         filter: true,
-        width: 100,
+        width: 200,
         cellRendererFramework: (params) => {
           return (
             <div className="d-flex align-items-center cursor-pointer">
@@ -83,11 +75,12 @@ class ApprovedDrivers extends React.Component {
           );
         },
       },
+
       {
         headerName: "Mobile No.",
         field: "mobile",
         filter: true,
-        width: 100,
+        width: 200,
         cellRendererFramework: (params) => {
           return (
             <div>
@@ -96,76 +89,7 @@ class ApprovedDrivers extends React.Component {
           );
         },
       },
-      {
-        headerName: "Vehicle Type",
-        // field: "mobile",
-        filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.mobile}</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Document View",
-        // field: "mobile",
-        filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.mobile}</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Approval Status",
-        field: "status",
-        // filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return params.value === "Confirm" ? (
-            <div className="badge badge-pill badge-success">
-              {params.data.status}
-            </div>
-          ) : params.value === "Pending" ? (
-            <div className="badge badge-pill badge-warning">
-              {params.data.status}
-            </div>
-          ) : null;
-        },
-      },
-      {
-        headerName: "Declined Reason ",
-        // field: "mobile",
-        filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.mobile}</span>
-            </div>
-          );
-        },
-      },
-      {
-        headerName: "Rating",
-        // field: "mobile",
-        filter: true,
-        width: 100,
-        cellRendererFramework: (params) => {
-          return (
-            <div>
-              <span>{params.data.mobile}</span>
-            </div>
-          );
-        },
-      },
-    
+
       {
         headerName: "Actions",
         field: "sortorder",
@@ -173,27 +97,30 @@ class ApprovedDrivers extends React.Component {
         cellRendererFramework: (params) => {
           return (
             <div className="actions cursor-pointer">
-              <Route render={({ history}) => (
-              <Eye
-                className="mr-50"
-                size="25px"
-                color="green"
-                onClick={() =>
-                history.push(`/app/driver/viewUserRide/${params.data._id}`       )
-              }
-            />
-          )}
-        />
-        <Route render={({ history}) => (
-              <Edit
-                className="mr-50"
-                size="25px"
-                color="blue"
-                onClick={() => history.push("/app/driver/editUserRide"  )
-              }
-            />
-          )}
-        />
+              <Route
+                render={({ history }) => (
+                  <Eye
+                    className="mr-50"
+                    size="25px"
+                    color="green"
+                    onClick={() =>
+                      history.push(
+                        `/app/customer/viewCustomer/${params.data._id}`
+                      )
+                    }
+                  />
+                )}
+              />
+              <Route
+                render={({ history }) => (
+                  <Edit
+                    className="mr-50"
+                    size="25px"
+                    color="blue"
+                    onClick={() => history.push("/app/customer/editCustomer")}
+                  />
+                )}
+              />
               <Trash2
                 className="mr-50"
                 size="25px"
@@ -213,22 +140,22 @@ class ApprovedDrivers extends React.Component {
   async componentDidMount() {
     let { id } = this.props.match.params;
 
-    await axios.get(`http://3.108.185.7:4000/user/view_onecust/${id}`)
-    .then((response) => {
-      let rowData = response.data.data;
-      console.log(rowData);
-      this.setState({ rowData });
-    });
-  
-
     await axios
-    .get("http://3.108.185.7:4000/admin/allcustomer")
-    .then((response) => {
+      .get(`http://3.108.185.7:4000/user/view_onecust/${id}`)
+      .then((response) => {
         let rowData = response.data.data;
         console.log(rowData);
         this.setState({ rowData });
       });
-    }
+
+    await axios
+      .get("http://3.108.185.7:4000/admin/allcustomer")
+      .then((response) => {
+        let rowData = response.data.data;
+        console.log(rowData);
+        this.setState({ rowData });
+      });
+  }
 
   async runthisfunction(id) {
     console.log(id);
@@ -269,28 +196,16 @@ class ApprovedDrivers extends React.Component {
       (
         <Row className="app-user-list">
           <Col sm="12"></Col>
-            <Col sm="12">
-              <Card>
-                <Row className="m-2">
-                  <Col>
-                    <h1 sm="6" className="float-left">
-                    Approved Drivers List
-                    </h1>
-                  </Col>
-              <Col>
-              <Route render={({ history}) => (
-                    <Button
-                        className=" btn btn-danger float-right"
-                        onClick={() => history.push("/app/driver/create")}
-                        >
-                        {/* Add Approved Drivers */}
-                        Add Driver
-                        </Button>
-                )}
-              />
-              </Col>
-                </Row>
-                <CardBody>
+          <Col sm="12">
+            <Card>
+              <Row className="m-2">
+                <Col>
+                  <h1 sm="6" className="float-left">
+                    Transaction History List
+                  </h1>
+                </Col>
+              </Row>
+              <CardBody>
                 {this.state.rowData === null ? null : (
                   <div className="ag-theme-material w-100 my-2 ag-grid-table">
                     <div className="d-flex flex-wrap justify-content-between align-items-center">
@@ -353,7 +268,8 @@ class ApprovedDrivers extends React.Component {
                         <div className="export-btn">
                           <Button.Ripple
                             color="primary"
-                            onClick={() => this.gridApi.exportDataAsCsv()}>
+                            onClick={() => this.gridApi.exportDataAsCsv()}
+                          >
                             Export as CSV
                           </Button.Ripple>
                         </div>
@@ -388,4 +304,4 @@ class ApprovedDrivers extends React.Component {
     );
   }
 }
-export default ApprovedDrivers;
+export default TransactionHistory;

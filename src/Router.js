@@ -47,6 +47,19 @@ const AddUser = lazy(() => import("./views/apps/user/AddUser"));
 const ViewUser = lazy(() => import("./views/apps/user/ViewUser"));
 const EditUser = lazy(() => import("./views/apps/user/EditUser"));
 
+// Report //
+const CallDetails = lazy(() => import("./views/apps/report/CallDetails"));
+const RechargeReport = lazy(() => import("./views/apps/report/RechargeReport"));
+
+//Wallet//
+const WalletManagement = lazy(() =>
+  import("./views/apps/wallet/WalletManagement")
+);
+
+//Transaction history//
+const TransactionHistory = lazy(() =>
+  import("./views/apps/transaction/TransactionHistory")
+);
 // memberShip//
 const MemberShipList = lazy(() =>
   import("./views/apps/membership/MemberShipList")
@@ -402,6 +415,22 @@ class AppRouter extends React.Component {
               exact={true}
               path="/email"
               component={() => <Redirect to="/email/inbox" />}
+            />
+            {/* report */}
+            <AppRoute
+              path="/app/report/rechargeReport"
+              component={RechargeReport}
+            />
+            <AppRoute path="/app/report/callDetails" component={CallDetails} />
+            {/* wallet */}
+            <AppRoute
+              path="/app/wallet/walletManagement"
+              component={WalletManagement}
+            />
+            {/* Transaction history */}
+            <AppRoute
+              path="/app/transaction/transactionHistory"
+              component={TransactionHistory}
             />
             {/* memberSHip */}
             <AppRoute
